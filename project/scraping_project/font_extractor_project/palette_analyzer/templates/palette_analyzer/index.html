@@ -1,0 +1,42 @@
+<!-- palette_analyzer/templates/palette_analyzer/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Analyzer</title>
+    <style>
+        .palette-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .color-box {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Color Palette Analyzer</h1>
+    <form method="get">
+        <label for="country">Select a country:</label>
+        <select name="country" id="country" onchange="this.form.submit()">
+            {% for country in countries %}
+                <option value="{{ country }}" {% if country == selected_country %}selected{% endif %}>{{ country }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if all_colors %}
+        <h2>All Colors from Top Websites in {{ selected_country }}</h2>
+        <div class="palette-container">
+            {% for color in all_colors %}
+                <div class="color-box" style="background-color: rgb({{ color.0 }}, {{ color.1 }}, {{ color.2 }});"></div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No data available for the selected country.</p>
+    {% endif %}
+</body>
+</html>

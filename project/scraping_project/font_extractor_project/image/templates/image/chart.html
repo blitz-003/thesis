@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Image Color Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      canvas {
+        max-width: 50%;
+        max-height: 50%;
+        background-color: #f0f0f0; /* Add your desired background color here */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Color Analysis for {{ url }}</h1>
+    <canvas id="colorChart"></canvas>
+    <script>
+      function resizeCanvas() {
+          var canvas = document.getElementById('colorChart');
+          canvas.width = window.innerWidth * 0.5;
+          canvas.height = window.innerHeight * 0.5;
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('load', function() {
+          resizeCanvas();
+
+          var ctx = document.getElementById('colorChart').getContext('2d');
+          var colorChart = new Chart(ctx, {
+              type: 'pie',
+              data: {
+                  labels: {{ labels|safe }},
+                  datasets: [{
+                      data: {{ data|safe }},
+                      backgroundColor: {{ colors|safe }}
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                      legend: {
+                          position: 'top',
+                      },
+                      title: {
+                          display: true,
+                          text: 'Color Distribution'
+                      }
+                  }
+              }
+          });
+      });
+    </script>
+  </body>
+</html>

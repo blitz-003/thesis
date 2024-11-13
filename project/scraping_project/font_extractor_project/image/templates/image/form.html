@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Image Analysis</title>
+  </head>
+  <body>
+    <h1>Analyze Website Colors</h1>
+    <form method="get" action="{% url 'analyze_image' %}">
+      <label for="url">Website URL:</label>
+      <input type="text" id="url" name="url" required />
+      <button type="submit">Analyze</button>
+    </form>
+  </body>
+</html>

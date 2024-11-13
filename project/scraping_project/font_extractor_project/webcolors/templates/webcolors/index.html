@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Website Colors</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Select a Country</h1>
+    <form method="get">
+        <select name="country">
+            <option value="" disabled selected>Select a country</option>
+            {% for country in countries %}
+                <option value="{{ country.name }}" {% if country.name == request.GET.country %}selected{% endif %}>{{ country.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if colors %}
+        <canvas id="colorChart" width="400" height="400"></canvas>
+        <script>
+            const colors = [
+                {% for color in colors %}
+                    {
+                        color: "{{ color.color }}",
+                        percentage: {{ color.percentage }}
+                    },
+                {% endfor %}
+            ];
+
+            const data = {
+                labels: colors.map(c => c.color),
+                datasets: [{
+                    data: colors.map(c => c.percentage),
+                    backgroundColor: colors.map(c => c.color),
+                }]
+            };
+
+            const config = {
+                type: 'pie',
+                data: data,
+            };
+
+            new Chart(document.getElementById('colorChart'), config);
+        </script>
+    {% endif %}
+</body>
+</html>
